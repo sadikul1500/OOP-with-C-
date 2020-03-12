@@ -4,7 +4,7 @@
 
 using namespace std;
 
-class Bangla
+class Bangla: public CommonSymbols
 {
     private:
         unordered_map<string, string> banglaDictionary;
@@ -56,10 +56,12 @@ class Bangla
         }
 
     public:
-        def __init__(self):
-        CommonSymbols.__init__(self)
-        print('bangla')
-        pass
+
+        Bangla()
+        {
+            cout<<"Bangla"<<endl;
+            setBanglaDictionary();
+        }
 
         unordered_map<string, string> getFourLetters(self)
         {
@@ -93,15 +95,21 @@ class Bangla
             return symbolToKar;
         }
 
-        unordered_map<string, string>getBanglaDictionary(self)
+        void setBanglaDictionary()
         {
+            banglaDictionary.insert(vol_spe.begin(), vol_spe.end());
+            banglaDictionary.insert(volume.begin(), volume.end());
+            banglaDictionary.insert(punctuation.begin(), punctuation.end());
+            banglaDictionary.insert(consonant.begin(), consonant.end());
+            banglaDictionary.insert(consonant.begin(), consonant.end());
+            banglaDictionary.insert(hosonto.begin(), hosonto.end());
 
         }
-        #dd = defaultdict(list)
-        for d in (self.vol_spe, self.volume, self.punctuation, self.consonant, self.hosonto, self.dot):  # you can list as many input dicts as you want here
-            for key, value in d.items():
-                self.banglaDictionary[key].append(value)
 
-        return self.banglaDictionary
+        unordered_map<string, string> getBanglaDictionary()
+        {
+            return banglaDictionary;
+        }
+
 
 };
