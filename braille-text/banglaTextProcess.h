@@ -1,5 +1,5 @@
-#ifndef bangls_H
-#define bangla_H
+#ifndef banglaTextProcess_H
+#define banglaTextProcess_H
 #include<iostream>
 #include<unordered_map>
 #include "doubleMap.h"
@@ -199,4 +199,4 @@ class BanglaTextProcess
             return text;
         }
 };
-#endif // bangls_H
+#endif // banglaTextProcess_H
