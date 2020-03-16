@@ -26,9 +26,11 @@ class BanglaTextProcess
             {
                 if(letters[i] == element.first)
                 {
+                    cout<<"dd "<<letters[i]<<endl;
                     return element.second;
                 }
             }
+            cout<<"missed "<<letters[i]<<endl;
         }
 
 
@@ -135,20 +137,22 @@ class BanglaTextProcess
         }
 
 
-        string textProcess(vector<string> letters)
+        vector<string> textProcess(vector<string> letters)
         {
             int length = letters.size();//sizeof(letters) / sizeof(*letters);
             bool num = false;
             int i = 0, bracket_count = 0;
-            string text = "";
+            vector<string> text;
             unordered_map<string, string> hos = bangla.getHosonto();
             unordered_map<string, string> dd = bangla.getBanglaDictionary();
 
             while(i < length)
             {
+                cout<<"btp "<<letters[i]<<endl;
                 if(num)
                 {
-                    text += numberProcess(letters, &bracket_count, &i, &length);
+                    cout<<"number process"<<endl;
+                    text.push_back(numberProcess(letters, &bracket_count, &i, &length));
                 }
 
                 else
@@ -159,8 +163,8 @@ class BanglaTextProcess
                         num = true;
                     }
 
-                    else if(letters[i] == numeral_sign && bangla.getPunctuation().find(letters[i-1]) != bangla.getPunctuation().end()
-                            || bangla.getDot().find(letters[i]) != bangla.getDot().end())
+                    else if(letters[i] == numeral_sign && (bangla.getPunctuation().find(letters[i-1]) != bangla.getPunctuation().end()
+                            || bangla.getDot().find(letters[i]) != bangla.getDot().end()))
                     {
                         cout<<"numeral sign found"<<endl;
                         num = true;
@@ -170,32 +174,39 @@ class BanglaTextProcess
                     {
                         if(i + 1 < length && bangla.getTwelveDots().find(letters[i] + letters[i + 1])!= bangla.getTwelveDots().end())
                         {
-                            text += bangla.getTwelveDots()[letters[i] + letters[i + 1]];
+                            text.push_back(bangla.getTwelveDots()[letters[i] + letters[i + 1]]);
+                            i += 1;
                         }
 
                         else if(bangla.getDouble_mapping().find(letters[i]) != bangla.getDouble_mapping().end())
                         {
+                            cout<<"double mapping"<<endl;
                             DoubleMap doubleMap(letters, i, bracket_count);
-                            text += doubleMap.getCharFromDoubleMap();
+                            text.push_back(doubleMap.getCharFromDoubleMap());
                             bracket_count = doubleMap.getBracket_count();
-                            i += 1;
+                            //i += 1;
                         }
 
-                        string txt = checkJointLetter(dd, letters, &i, length);
-                        text += txt;
-
-                        if(txt == "")
+                        else
                         {
-                            text += getText(dd, letters, i);
+                            string txt = checkJointLetter(dd, letters, &i, length);
+                            //text += txt;
+
+                            if(txt == "")
+                            {
+                                cout<<"last"<<endl;
+                                text.push_back(getText(dd, letters, i));
+                            }
+                            else text.push_back(txt);
+
                         }
                         num = false;
-
 
                     }
                 }
                 i += 1;
             }
-            text += " ";
+            text.push_back(" ");
             return text;
         }
 };
