@@ -12,7 +12,7 @@ class SplitText
         vector<string> split(const string& input, const string& regx)
         {
             regex re(regx);
-            sregex_token_iteration first{input.begin(), input.end(), re, -1}, last;
+            sregex_token_iterator first{input.begin(), input.end(), re, -1}, last;
 
             return {first, last};
         }
