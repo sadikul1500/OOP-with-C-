@@ -14,7 +14,7 @@ int main()
 {
     BrailleToText *brailleToText;
     BrailleToEnglish brailleToEnglish;
-    BrailleToText brailleToBangla;
+    BrailleToBangla brailleToBangla;
 
     string language;
     cout<<"select language\n1.Bangla\n2.English"<<endl;
