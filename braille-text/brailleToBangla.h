@@ -1,6 +1,7 @@
 #ifndef brailleToBangla_H
 #define brailleToBangla_H
 #include<iostream>
+#include<fstream>
 #include<unordered_map>
 #include "bangla.h"
 #include "banglaTextProcess.h"
@@ -28,25 +29,42 @@ class BrailleToBangla: public BanglaTextProcess, public BrailleToText
             return outText;
         }
 
+        bool isConsonant(string consonant)
+        {
+            for (pair<string, string> element : bangla.getConsonant())
+            {
+                if(consonant == element.second)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         string getBrailleToText(vector<string> text)
         {
             vector<string> outText = textProcess(text); //banglaTextProcess class
             int i = 0;
+            ofstream oFile("tests.txt", ios::app);
             //int length = srtlen(outText);
 
             while(i < outText.size())
             {
-                if(bangla.getVol_spe().find(outText[i]) != bangla.getVol_spe().end() && i>0 && outText[i-1] == "অ")
+                oFile<<outText[i]<<"\n";
+                if(bangla.getVol_spe().find(outText[i]) != bangla.getVol_spe().end() && i>0 && outText[i-1] == bangla.getVolume()["100000"])
                 {
                     //outText = outText.substr(0, i-1) + outText.substr(i, outText.size()-i+1);
                     outText.erase(outText.begin()+ i-1);
+                    i -= 1;
                 }
                 else if(bangla.getSymbolToKar().find(outText[i]) != bangla.getSymbolToKar().end() && i>0 &&
-                        bangla.getConsonant().find(outText[i-1]) != bangla.getConsonant().end())
+                        isConsonant(outText[i-1]))
                 {
                     //outText = outText.substr(0, i) + bangla.getSymbolToKar()[outText[i]] + outText.substr(i+1, outText.size()-i);
                     outText[i] = bangla.getSymbolToKar()[outText[i]];
+                    //cout<<"yes"<<endl;
                 }
+                //if(bangla.getSymbolToKar().find(outText[i]) != bangla.getSymbolToKar().end()) cout<<"paise"<<endl;
                 i += 1;
             }
 
