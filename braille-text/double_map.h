@@ -2,6 +2,7 @@
 #define double_map_H
 #include<iostream>
 #include<unordered_map>
+#include<vector>
 #include "commonSymbols.h"
 
 using namespace std;
@@ -10,39 +11,43 @@ class DoubleMap
 {
     private:
         CommonSymbols commonSymbols;
-        string* letters;
+        vector<string> letters;
         int position, bracket_count;
 
     public:
-        DoubleMap(string* letters, int position, int bracket_count)
+        DoubleMap(vector<string> letters, int position, int bracket_count)
         {
-            this.letters = letters;
-            this.position = position;
-            this.bracket_count = bracket_count;
+            this->letters = letters;
+            this->position = position;
+            this->bracket_count = bracket_count;
             cout<<"double map"<<endl;
         }
 
         string getCharFromDoubleMap()
         {
-            string char = letters[position];
-            int length = sizeof(letters) / sizeof(*letters);
+            string character = letters[position];
+            int length = letters.size();//sizeof(letters) / sizeof(*letters);
 
-            if(char == "011001")
+            if(character == "011001")
             {
-                (position + 1 == length) ? return "?" :  return "\“";
+                if (position + 1 == length)
+                {
+                    return "?";
+                }
+                return "\“";
             }
 
-             else if(char == "001011")
+             else if(character == "001011")
              {
                 if (position + 1 == length ||
-                    commonSymbol.getPunctuation().find(letters[position]) != commonSymbol.getPunctuation().end())
+                    commonSymbols.getPunctuation().find(letters[position]) != commonSymbols.getPunctuation().end())
                     {
                         return "\"";
                     }
                 return "্";
              }
 
-             else if(char == "011011")
+             else if(character == "011011")
              {
                 if (bracket_count == 1)
                 {
@@ -53,9 +58,13 @@ class DoubleMap
                 return "(" ;
              }
 
-             else if(char == "010000")
+             else if(character == "010000")
              {
-                 (position + 1 == length || length > 3) ? returnn "," : ".";
+                 if(position + 1 == length || length > 3)
+                 {
+                     return ",";
+                 }
+                 return ".";
              }
 
 
@@ -67,4 +76,4 @@ class DoubleMap
             return bracket_count;
         }
 };
-#endif // double_map_Hs
+#endif // double_map_H
