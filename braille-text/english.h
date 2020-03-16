@@ -6,7 +6,7 @@
 
 using namespace std;
 
-class English: public CommonSymbols
+class English: public CommonSymbols //inherits common symbols
 {
     private:
         unordered_map<string, string> englishDictionary;
@@ -16,7 +16,7 @@ class English: public CommonSymbols
         {"100110", "4"}, {"100010", "5"},
         {"110100", "6"}, {"110110", "7"},
         {"110010", "8"}, {"010100", "9"}
-        }
+        };
         unordered_map<string, string> english_alphabet = {
         {"100000", "a"}, {"110000", "b"}, {"100100", "c"}, {"100110", "d"}, {"100010", "e"},
         {"110100", "f"}, {"110110", "g"}, {"110010", "h"}, {"010100", "i"}, {"010110", "j"},
@@ -24,7 +24,7 @@ class English: public CommonSymbols
         {"111100", "p"}, {"111110", "q"}, {"111010", "r"}, {"011100", "s"}, {"011110", "t"},
         {"101001", "u"}, {"111001", "v"}, {"010111", "w"}, {"101101", "x"}, {"101111", "y"},
         {"101011", "z"}
-    }
+    };
 
     public:
         English()
@@ -46,8 +46,8 @@ class English: public CommonSymbols
         void setEnglishDictionary()
         {
             englishDictionary.insert(english_alphabet.begin(), english_alphabet.end());
-            englishDictionary.insert(punction.begin(), punction.end());
-            englishDictionary.insert(dot.begin(), dot.end());
+            englishDictionary.insert(getPunctuation().begin(), getPunctuation().end());
+            englishDictionary.insert(getDot().begin(), getDot().end());
         }
 
         unordered_map<string, string> getEnglishDictionary()
