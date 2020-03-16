@@ -2,7 +2,7 @@
 #define BanglaTextProcess_H
 #include<iostream>
 #include<unordered_map>
-#include "doubleMap.h"
+#include "double_map.h"
 #include "bangla.h"
 
 using namespace std;
@@ -20,7 +20,7 @@ class BanglaTextProcess
         }
 
 
-        string getText(unordered_map<string, string> dd, string letters, int i)
+        string getText(unordered_map<string, string> dd, vector<string> letters, int i)
         {
             for (pair<string, string> element : dd)
             {
@@ -32,12 +32,12 @@ class BanglaTextProcess
         }
 
 
-        string checkJointLetter(unordered_map<string, string> dd, string letters, int *i, int length)
+        string checkJointLetter(unordered_map<string, string> dd, vector<string> letters, int *i, int length)
         {
             if(letters[*i] == "000100" && *i+2 < length)
             {
                 *i += 2;
-                return dd[letters[*i+1]] + bangla.getHosonto() + dd[letters[*i+2]];
+                return dd[letters[*i+1]] + bangla.getHosonto().begin()->second + dd[letters[*i+2]];
             }
 
             else if(letters[*i] == "000101" && *i+4 < length)
@@ -50,8 +50,8 @@ class BanglaTextProcess
                         if(joint == element.first)
                         {
                             i += 4;
-                            return dd[letters[*i+1]] + bangla.getHosonto() + dd[letters[*i+2]] +
-                            bangla.getHosonto() + dd[letters[*i+3]] + bangla.getHosonto() + dd[letters[*i+4]];
+                            return dd[letters[*i+1]] + bangla.getHosonto().begin()->second + dd[letters[*i+2]] +
+                            bangla.getHosonto().begin()->second + dd[letters[*i+3]] + bangla.getHosonto().begin()->second + dd[letters[*i+4]];
 
                         }
                     }
@@ -61,7 +61,7 @@ class BanglaTextProcess
             else if(letters[*i] == "000101" && *i+3 < length)
             {
                 *i += 3;
-                return dd[letters[*i + 1]] + bangla.getHosonto() + dd[letters[*i + 2]] + bangla.getHosonto() +
+                return dd[letters[*i + 1]] + bangla.getHosonto().begin()->second + dd[letters[*i + 2]] + bangla.getHosonto().begin()->second +
                        dd[letters[*i + 3]];
 
             }
@@ -71,7 +71,7 @@ class BanglaTextProcess
         }
 
 
-        string numberProcess(string* letters, int *bracket_count, int *i, int* length)
+        string numberProcess(vector<string> letters, int *bracket_count, int *i, int* length)
         {
             if(bangla.getOperator().find(letters[*i]) != bangla.getOperator().end())
             {
@@ -81,7 +81,7 @@ class BanglaTextProcess
                      return "(";
                  }
 
-                 else if(letters[*i] == '011011' and *bracket_count == 1)
+                 else if(letters[*i] == "011011" and *bracket_count == 1)
                  {
                      *bracket_count = 0;
                      return ")";
@@ -93,33 +93,33 @@ class BanglaTextProcess
                  }
             }
 
-            else if(bangla.getNumbers().find[letters[*i] != bangla.getNumbers().end())
+            else if(bangla.getNumbers().find(letters[*i]) != bangla.getNumbers().end())
             {
-                return bangla.getNumber([letters[*i]);
+                return bangla.getNumbers()[letters[*i]];
             }
 
-            else if((bangla.getOperator().find([letters[*i]) == bangla.getOperator().end() ||
-                    bangla.getNumbers().find([letters[*i]) == bangla.getNumbers().end()) && *i+1 < *length)
+            else if((bangla.getOperator().find(letters[*i]) == bangla.getOperator().end() ||
+                    bangla.getNumbers().find(letters[*i]) == bangla.getNumbers().end()) && *i+1 < *length)
             {
-                if(letters[*i] == "001010" && letters[i+1] == "001010")
+                if(letters[*i] == "001010" && letters[*i+1] == "001010")
                 {
                     *i++;
                     return bangla.getOperator()[letters[*i] + letters[*i+1]];
                 }
 
-                else if(letters[*i] == "000011" && letters[i+1] == "011011")
+                else if(letters[*i] == "000011" && letters[*i+1] == "011011")
                 {
                     *i++;
                     return bangla.getOperator()[letters[*i] + letters[*i+1]];
                 }
 
-                else if(letters[*i] == "000001" && letters[i+1] == "011011")
+                else if(letters[*i] == "000001" && letters[*i+1] == "011011")
                 {
                     *i++;
                     return "[";
                 }
 
-                else if(letters[*i] == "011011" && letters[i+1] == "000001")
+                else if(letters[*i] == "011011" && letters[*i+1] == "000001")
                 {
                     *i++;
                     return "]";
@@ -135,9 +135,9 @@ class BanglaTextProcess
         }
 
 
-        string textProcess(string* letters)
+        string textProcess(vector<string> letters)
         {
-            int length = sizeof(letters) / sizeof(*letters);
+            int length = letters.size();//sizeof(letters) / sizeof(*letters);
             bool num = false;
             int i = 0, bracket_count = 0;
             string text = "";
@@ -168,9 +168,9 @@ class BanglaTextProcess
 
                     else
                     {
-                        if(i + 1 < length && bangla.getTwelveDots().find(letters[i] + letters[i + 1]) != != bangla.getTwelveDots().end())
+                        if(i + 1 < length && bangla.getTwelveDots().find(letters[i] + letters[i + 1])!= bangla.getTwelveDots().end())
                         {
-                            text += bangla.getTwelveDots().[letters[i] + letters[i + 1]];
+                            text += bangla.getTwelveDots()[letters[i] + letters[i + 1]];
                         }
 
                         else if(bangla.getDouble_mapping().find(letters[i]) != bangla.getDouble_mapping().end())
@@ -184,7 +184,7 @@ class BanglaTextProcess
                         string txt = checkJointLetter(dd, letters, &i, length);
                         text += txt;
 
-                        if(!txt)
+                        if(txt == "")
                         {
                             text += getText(dd, letters, i);
                         }
