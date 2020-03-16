@@ -1,5 +1,5 @@
-#ifndef brailleToEnglish_H
-#define brailleToEnglish_H
+#ifndef brailleToBangla_H
+#define brailleToBangla_H
 #include<iostream>
 #include<unordered_map>
 #include "bangla.h"
@@ -7,7 +7,7 @@
 
 using namespace std;
 
-class BrailleToBangla: public BanglaTextProcess
+class BrailleToBangla: public BanglaTextProcess, public BrailleToText
 {
     private:
         Bangla bangla;
@@ -18,21 +18,22 @@ class BrailleToBangla: public BanglaTextProcess
             cout<<"braille to bangla"<<endl;
         }
 
-        string* getBrailleToText(string *text)
+        string getBrailleToText(vector<string> text)
         {
-            string[] outText = textProcess(text);
+            string outText = textProcess(text); //banglaTextProcess class
+            int i = 0;
             //int length = srtlen(outText);
 
-            while(i < srtlen(outText))
+            while(i < outText.size())
             {
                 if(bangla.getVol_spe().find(outText[i]) != bangla.getVol_spe().end() && i>0 && outText[i-1] == "100000")
                 {
-                    outText = outText.substr(0, i-1) + outText.substr(i, srtlen(outText)-i+1);
+                    outText = outText.substr(0, i-1) + outText.substr(i, outText.size()-i+1);
                 }
                 else if(bangla.getSymbolToKar().find(outText[i]) != bangla.getSymbolToKar().end() && i>0 &&
                         bangla.getConsonant().find(outText[i-1]) != bangla.getConsonant().end())
                 {
-                    outText = outText.substr(0, i) + bangla.getSymbolToKar()[outText[i]] + outText.substr(i+1, srtlen(outText)-i);
+                    outText = outText.substr(0, i) + bangla.getSymbolToKar()[outText[i]] + outText.substr(i+1, outText.size()-i);
                 }
                 i += 1;
             }
@@ -43,6 +44,6 @@ class BrailleToBangla: public BanglaTextProcess
 
 };
 
-#endif // brailleToEnglish_H
+#endif // brailleToBangla_H
 
 
