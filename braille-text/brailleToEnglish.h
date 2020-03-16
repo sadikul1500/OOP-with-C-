@@ -1,18 +1,18 @@
-#ifndef brailleToEnglish_H"
+#ifndef brailleToEnglish_H
 #define brailleToEnglish_H
-#incldue<iostream>
+#include<iostream>
 #include<unordered_map>
 #include "english.h"
-#incldue "double_map.h"
+#include "double_map.h"
 
 using namespace std;
 
-class BrailleToEnglish
+class BrailleToEnglish: public BrailleToText
 {
     private:
         English english;
         string numeral_sign = "001111";
-        string capial_sign = "000001";
+        string capital_sign = "000001";
 
     public:
         BrailleToEnglish()
@@ -22,12 +22,13 @@ class BrailleToEnglish
 
         string upper(string lower)
         {
-            for(int i=0; i<strlen(lower); i++)
+            int length = lower.size();
+            for(int i=0; i<length; i++)
                 lower[i] = lower[i] - 32;
             return lower;
         }
 
-        string getText(unordered_map<string, string> dd, string *letters, int i)
+        string getText(unordered_map<string, string> dd, vector<string> letters, int i, bool *capital)
         {
             int flag = 0;
 
@@ -36,9 +37,10 @@ class BrailleToEnglish
                 if(letters[i] == element.first)
                 {
                     flag = 0;
-                    if(capital)
+                    if(*capital)
                     {
-                         return upper(element.second);
+                        *capital = false;
+                        return upper(element.second);
                     }
                     return element.second;
                 }
@@ -47,7 +49,7 @@ class BrailleToEnglish
 
         }
 
-        string numberProcess(string* letters, int *bracket_count, int *i, int* length)
+        string numberProcess(vector<string> letters, int *bracket_count, int *i, int* length)
         {
             if(english.getOperator().find(letters[*i]) != english.getOperator().end())
             {
@@ -57,7 +59,7 @@ class BrailleToEnglish
                      return "(";
                  }
 
-                 else if(letters[*i] == '011011' and *bracket_count == 1)
+                 else if(letters[*i] == "011011" and *bracket_count == 1)
                  {
                      *bracket_count = 0;
                      return ")";
@@ -69,33 +71,33 @@ class BrailleToEnglish
                  }
             }
 
-            else if(english.getEnglishNumbers().find[letters[*i] != english.getEnglishNumbers().end())
+            else if(english.getEnglishNumbers().find(letters[*i]) != english.getEnglishNumbers().end())
             {
-                return english.getEnglishNumber([letters[*i]);
+                return english.getEnglishNumbers()[letters[*i]];
             }
 
-            else if((english.getOperator().find([letters[*i]) == english.getOperator().end() ||
-                    english.getEnglishNumbers().find([letters[*i]) == english.getEnglishNumbers().end()) && *i+1 < *length)
+            else if((english.getOperator().find(letters[*i]) == english.getOperator().end() ||
+                    english.getEnglishNumbers().find(letters[*i]) == english.getEnglishNumbers().end()) && *i+1 < *length)
             {
-                if(letters[*i] == "001010" && letters[i+1] == "001010")
+                if(letters[*i] == "001010" && letters[*i+1] == "001010")
                 {
                     *i++;
                     return english.getOperator()[letters[*i] + letters[*i+1]];
                 }
 
-                else if(letters[*i] == "000011" && letters[i+1] == "011011")
+                else if(letters[*i] == "000011" && letters[*i+1] == "011011")
                 {
                     *i++;
                     return english.getOperator()[letters[*i] + letters[*i+1]];
                 }
 
-                else if(letters[*i] == "000001" && letters[i+1] == "011011")
+                else if(letters[*i] == "000001" && letters[*i+1] == "011011")
                 {
                     *i++;
                     return "[";
                 }
 
-                else if(letters[*i] == "011011" && letters[i+1] == "000001")
+                else if(letters[*i] == "011011" && letters[*i+1] == "000001")
                 {
                     *i++;
                     return "]";
@@ -111,10 +113,10 @@ class BrailleToEnglish
         }
 
 
-        string getBrailleToText(string* letters)
+        string getBrailleToText(vector<string> letters)
         {
-            int length = sizeof(letters) / sizeof(*letters);
-            bool capital = false;
+            int length = letters.size();//sizeof(letters) / sizeof(*letters);
+            bool capital = false, num = false;
             int i = 0;
             string text = "";
             int bracket_count = 0;
@@ -124,7 +126,7 @@ class BrailleToEnglish
             {
                 if(num)
                 {
-                    text += numberProcess(letteers, &bracket_count, &i, &length);
+                    text += numberProcess(letters, &bracket_count, &i, &length);
                 }
 
                 else
@@ -141,7 +143,7 @@ class BrailleToEnglish
                     {
                         if(i+1 < length && english.getTwelveDots().find(letters[i] + letters[i+1]) != english.getTwelveDots().end())
                         {
-                            text += english.getTwelveDots()[letters[i] + letters[i + 1]]
+                            text += english.getTwelveDots()[letters[i] + letters[i + 1]];
                             i += 1;
                         }
                         else if(english.getDouble_mapping().find(letters[i]) != english.getDouble_mapping().end())
@@ -151,7 +153,7 @@ class BrailleToEnglish
                             bracket_count = doubleMap.getBracket_count();
                             i += 1;
                         }
-                        else if(letters[i] == capial_sign && i+1 <length && letters[i+1] == capital_sign)
+                        else if(letters[i] == capital_sign && i+1 <length && letters[i+1] == capital_sign)
                         {
                             text += capital_sign + capital_sign;
                             i += 1;
@@ -162,7 +164,7 @@ class BrailleToEnglish
                         }
                         else
                         {
-                            text += getText(dd, letters, i);
+                            text += getText(dd, letters, i, &capital);
 
                         }
                         num = false;
