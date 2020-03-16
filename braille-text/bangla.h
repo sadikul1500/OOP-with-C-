@@ -92,7 +92,7 @@ class Bangla: public CommonSymbols
         }
 
 
-        unordered_map<string, string>getSymbolToKar()
+        unordered_map<string, string> getSymbolToKar()
         {
             return symbolToKar;
         }
