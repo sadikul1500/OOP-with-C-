@@ -13,7 +13,7 @@ class BrailleToText
     //private:
     //    string* fileList;
     public:
-        virtual string getBrailleToText(vector<string> text);
+        virtual string getBrailleToText(vector<string> text) = 0;
 
         string getText(string file, BrailleToText *brailleToText)
         {
