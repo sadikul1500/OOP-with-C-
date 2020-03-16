@@ -91,9 +91,3 @@ class CommonSymbols
 //    CommonSymbols dd;
 //    cout<<dd.getTwelveDots()["011011001000"]<<endl;
 //}
-
-
-
-
-
-
