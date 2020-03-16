@@ -13,7 +13,7 @@ class BrailleToText
     //private:
     //    string* fileList;
     public:
-        virtual string getBrailleToText(vector<string> text) = 0;
+        virtual string getBrailleToText(vector<string> text) =0;
 
         string getText(string file, BrailleToText *brailleToText)
         {
@@ -27,7 +27,9 @@ class BrailleToText
                 vector<string> word = splitText.split(line, " space ");
                 for(int i=0; i<word.size(); i++)
                 {
+                    //cout<<word[i]<<endl;
                     vector<string> letters = splitText.split(word[i], " ");
+                    //for(int j=0; j<letters.size(); j++) cout<<letters[j]<<endl;
                     text += brailleToText->getBrailleToText(letters);
                 }
                 text += "\n";
