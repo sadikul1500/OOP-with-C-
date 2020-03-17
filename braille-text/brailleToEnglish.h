@@ -119,7 +119,7 @@ class BrailleToEnglish: public BrailleToText
                 text.replace(text.find("000001000001"), 12, "");
                 int length = text.size();
                 cout<<text<<endl;
-                for(int i=0; i<length; i++)
+                for(int i=0; i<length-1; i++)
                 {
                     text[i] = text[i] - 32;
                 }
