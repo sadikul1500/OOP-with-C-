@@ -29,9 +29,9 @@ int main()
         brailleToText = &brailleToBangla;
     }
 
-    string inputFile = "input.txt";
+    string inputFile = "input_english.txt";
     string outText = brailleToText->getText(inputFile, brailleToText);
-    ofstream oFile("out.txt");
+    ofstream oFile("out_english.txt");
     oFile<<outText;
 
 }
