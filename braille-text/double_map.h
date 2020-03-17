@@ -60,7 +60,7 @@ class DoubleMap
 
              else if(character == "010000")
              {
-                 cout<<"ok2"<<endl;
+                // cout<<"ok2"<<endl;
                  if(position + 1 == length || length > 3)
                  {
                      cout<<"HHoise"<<endl;
