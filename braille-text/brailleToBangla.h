@@ -41,7 +41,7 @@ class BrailleToBangla: public BanglaTextProcess, public BrailleToText
             return false;
         }
 
-        string getBrailleToText(vector<string> text)
+        string getBrailleToText(vector<string> text) //overriden
         {
             vector<string> outText = textProcess(text); //banglaTextProcess class
             int i = 0;
@@ -69,6 +69,11 @@ class BrailleToBangla: public BanglaTextProcess, public BrailleToText
             }
 
             return returnText(outText);
+        }
+
+        string postProcess(string text)
+        {
+            return text;
         }
 
 
