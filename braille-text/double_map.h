@@ -27,7 +27,7 @@ class DoubleMap
         {
             string character = letters[position];
             int length = letters.size();//sizeof(letters) / sizeof(*letters);
-
+            //cout<<"ok1"<<endl;
             if(character == "011001")
             {
                 if (position + 1 == length)
@@ -60,8 +60,10 @@ class DoubleMap
 
              else if(character == "010000")
              {
+                 cout<<"ok2"<<endl;
                  if(position + 1 == length || length > 3)
                  {
+                     cout<<"HHoise"<<endl;
                      return ",";
                  }
                  return ".";
@@ -76,4 +78,4 @@ class DoubleMap
             return bracket_count;
         }
 };
-#endif // double_map_H
+#endif // double_map_Hs
