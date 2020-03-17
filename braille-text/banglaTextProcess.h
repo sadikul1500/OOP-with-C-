@@ -39,7 +39,7 @@ class BanglaTextProcess
             if(letters[*i] == "000100" && *i+2 < length)
             {
                 *i += 2;
-                return dd[letters[*i+1]] + bangla.getHosonto().begin()->second + dd[letters[*i+2]];
+                return dd[letters[*i+1-2]] + bangla.getHosonto().begin()->second + dd[letters[*i+2-2]];
             }
 
             else if(letters[*i] == "000101" && *i+4 < length)
@@ -52,8 +52,8 @@ class BanglaTextProcess
                         if(joint == element.first)
                         {
                             i += 4;
-                            return dd[letters[*i+1]] + bangla.getHosonto().begin()->second + dd[letters[*i+2]] +
-                            bangla.getHosonto().begin()->second + dd[letters[*i+3]] + bangla.getHosonto().begin()->second + dd[letters[*i+4]];
+                            return dd[letters[*i+1-4]] + bangla.getHosonto().begin()->second + dd[letters[*i+2-4]] +
+                            bangla.getHosonto().begin()->second + dd[letters[*i+3-4]] + bangla.getHosonto().begin()->second + dd[letters[*i+4-4]];
 
                         }
                     }
@@ -63,8 +63,8 @@ class BanglaTextProcess
             else if(letters[*i] == "000101" && *i+3 < length)
             {
                 *i += 3;
-                return dd[letters[*i + 1]] + bangla.getHosonto().begin()->second + dd[letters[*i + 2]] + bangla.getHosonto().begin()->second +
-                       dd[letters[*i + 3]];
+                return dd[letters[*i + 1-3]] + bangla.getHosonto().begin()->second + dd[letters[*i + 2-3]] + bangla.getHosonto().begin()->second +
+                       dd[letters[*i + 3-3]];
 
             }
 
@@ -106,13 +106,13 @@ class BanglaTextProcess
                 if(letters[*i] == "001010" && letters[*i+1] == "001010")
                 {
                     *i++;
-                    return bangla.getOperator()[letters[*i] + letters[*i+1]];
+                    return bangla.getOperator()[letters[*i-1] + letters[*i+1-1]];
                 }
 
                 else if(letters[*i] == "000011" && letters[*i+1] == "011011")
                 {
                     *i++;
-                    return bangla.getOperator()[letters[*i] + letters[*i+1]];
+                    return bangla.getOperator()[letters[*i-1] + letters[*i+1-1]];
                 }
 
                 else if(letters[*i] == "000001" && letters[*i+1] == "011011")
