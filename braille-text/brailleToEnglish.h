@@ -82,13 +82,13 @@ class BrailleToEnglish: public BrailleToText
                 if(letters[*i] == "001010" && letters[*i+1] == "001010")
                 {
                     *i++;
-                    return english.getOperator()[letters[*i] + letters[*i+1]];
+                    return english.getOperator()[letters[*i-1] + letters[*i+1-1]];
                 }
 
                 else if(letters[*i] == "000011" && letters[*i+1] == "011011")
                 {
                     *i++;
-                    return english.getOperator()[letters[*i] + letters[*i+1]];
+                    return english.getOperator()[letters[*i-1] + letters[*i+1-1]];
                 }
 
                 else if(letters[*i] == "000001" && letters[*i+1] == "011011")
@@ -112,6 +112,21 @@ class BrailleToEnglish: public BrailleToText
             else return "";
         }
 
+        string postProcess(string text)
+        {
+            if(text.find("000001000001") != string::npos)
+            {
+                text.replace(text.find("000001000001"), 12, "");
+                int length = text.size();
+                cout<<text<<endl;
+                for(int i=0; i<length; i++)
+                {
+                    text[i] = text[i] - 32;
+                }
+            }
+            return text;
+        }
+
 
         string getBrailleToText(vector<string> letters)
         {
@@ -131,14 +146,14 @@ class BrailleToEnglish: public BrailleToText
 
                 else
                 {
-                    if(i == 0 && letters[i] == numeral_sign)
+                    if(letters[i] == numeral_sign) //i == 0 &&
                     {
                         num = true;
                     }
-                    else if(letters[i] == numeral_sign && english.getPunctuation().find(letters[i-1]) !=english.getPunctuation().end())
-                    {
-                        num = true;
-                    }
+                    //else if(letters[i] == numeral_sign && english.getPunctuation().find(letters[i-1]) !=english.getPunctuation().end())
+                    //{
+                      //  num = true;
+                    //}
                     else
                     {
                         if(i+1 < length && english.getTwelveDots().find(letters[i] + letters[i+1]) != english.getTwelveDots().end())
@@ -151,7 +166,7 @@ class BrailleToEnglish: public BrailleToText
                             DoubleMap doubleMap(letters, i, bracket_count);
                             text += doubleMap.getCharFromDoubleMap();
                             bracket_count = doubleMap.getBracket_count();
-                            i += 1;
+                            //i += 1;
                         }
                         else if(letters[i] == capital_sign && i+1 <length && letters[i+1] == capital_sign)
                         {
