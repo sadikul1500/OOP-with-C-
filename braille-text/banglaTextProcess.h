@@ -12,6 +12,7 @@ class BanglaTextProcess
     private:
         Bangla bangla;
         string numeral_sign = "001111";
+        string operator_sign = "000011";
 
     public:
         BanglaTextProcess()
@@ -100,38 +101,24 @@ class BanglaTextProcess
                 return bangla.getNumbers()[letters[*i]];
             }
 
-            else if((bangla.getOperator().find(letters[*i]) == bangla.getOperator().end() ||
-                    bangla.getNumbers().find(letters[*i]) == bangla.getNumbers().end()) && *i+1 < *length)
+            else if(letters[*i] == operator_sign && *i+1 < *length)
             {
-                if(letters[*i] == "001010" && letters[*i+1] == "001010")
+                *i++;
+                if(bangla.getMathOperator().find(letters[*i]) != bangla.getMathOperator().end())
                 {
-                    *i++;
-                    return bangla.getOperator()[letters[*i-1] + letters[*i+1-1]];
-                }
-
-                else if(letters[*i] == "000011" && letters[*i+1] == "011011")
-                {
-                    *i++;
-                    return bangla.getOperator()[letters[*i-1] + letters[*i+1-1]];
-                }
-
-                else if(letters[*i] == "000001" && letters[*i+1] == "011011")
-                {
-                    *i++;
-                    return "[";
-                }
-
-                else if(letters[*i] == "011011" && letters[*i+1] == "000001")
-                {
-                    *i++;
-                    return "]";
+                    return bangla.getMathOperator()[letters[*i]];
                 }
 
                 else
-                {
-                    return "";
-                }
+                    return letters[*i];
             }
+
+            else if(bangla.getOperator().find(letters[*i]+letters[*i+1]) != bangla.getOperator().end() && *i+1 < *length)
+            {
+                *i++;
+                return bangla.getOperator()[letters[*i-1] + letters[*i+1-1]];
+            }
+
 
             else return "";
         }
@@ -185,6 +172,12 @@ class BanglaTextProcess
                             text.push_back(doubleMap.getCharFromDoubleMap());
                             bracket_count = doubleMap.getBracket_count();
                             //i += 1;
+                        }
+
+                        else if(letters[i] == operator_sign && i+1 < length)
+                        {
+                            text.push_back(bangla.getMathOperator()[letters[i+1]]);
+                            i += 1;
                         }
 
                         else
