@@ -13,6 +13,7 @@ class BrailleToEnglish: public BrailleToText
         English english;
         string numeral_sign = "001111";
         string capital_sign = "000001";
+        string operator_sign = "000011";
 
     public:
         BrailleToEnglish()
@@ -76,37 +77,22 @@ class BrailleToEnglish: public BrailleToText
                 return english.getEnglishNumbers()[letters[*i]];
             }
 
-            else if((english.getOperator().find(letters[*i]) == english.getOperator().end() ||
-                    english.getEnglishNumbers().find(letters[*i]) == english.getEnglishNumbers().end()) && *i+1 < *length)
+            else if(letters[*i] == operator_sign && *i+1 < *length)
             {
-                if(letters[*i] == "001010" && letters[*i+1] == "001010")
+                *i++;
+                if(english.getMathOperator().find(letters[*i]) != english.getMathOperator().end())
                 {
-                    *i++;
-                    return english.getOperator()[letters[*i-1] + letters[*i+1-1]];
-                }
-
-                else if(letters[*i] == "000011" && letters[*i+1] == "011011")
-                {
-                    *i++;
-                    return english.getOperator()[letters[*i-1] + letters[*i+1-1]];
-                }
-
-                else if(letters[*i] == "000001" && letters[*i+1] == "011011")
-                {
-                    *i++;
-                    return "[";
-                }
-
-                else if(letters[*i] == "011011" && letters[*i+1] == "000001")
-                {
-                    *i++;
-                    return "]";
+                    return english.getMathOperator()[letters[*i]];
                 }
 
                 else
-                {
-                    return "";
-                }
+                    return letters[*i];
+            }
+
+            else if(english.getOperator().find(letters[*i]+letters[*i+1]) != english.getOperator().end() && *i+1 < *length)
+            {
+                *i++;
+                return english.getOperator()[letters[*i-1] + letters[*i+1-1]];
             }
 
             else return "";
@@ -118,10 +104,11 @@ class BrailleToEnglish: public BrailleToText
             {
                 text.replace(text.find("000001000001"), 12, "");
                 int length = text.size();
-                cout<<text<<endl;
+                cout<<text<<" "<<length<<endl;
                 for(int i=0; i<length-1; i++)
                 {
-                    text[i] = text[i] - 32;
+                    if(text[i] >= 'a' && text[i] <= 'z')
+                        text[i] = text[i] - 32;
                 }
             }
             return text;
@@ -176,6 +163,12 @@ class BrailleToEnglish: public BrailleToText
                         else if (letters[i] == capital_sign)
                         {
                             capital = true;
+                        }
+
+                        else if(letters[i] == operator_sign && i+1 < length)
+                        {
+                            text += english.getMathOperator()[letters[i+1]];
+                            i +=1;
                         }
                         else
                         {
