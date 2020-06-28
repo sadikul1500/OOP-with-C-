@@ -162,6 +162,7 @@ class BanglaTextProcess
                     {
                         if(i + 1 < length && bangla.getTwelveDots().find(letters[i] + letters[i + 1])!= bangla.getTwelveDots().end())
                         {
+                            cout<<"twelve dots"<<endl;
                             text.push_back(bangla.getTwelveDots()[letters[i] + letters[i + 1]]);
                             i += 1;
                         }
@@ -175,8 +176,9 @@ class BanglaTextProcess
                             //i += 1;
                         }
 
-                        else if(letters[i] == operator_sign && i+1 < length)
+                        else if(i== 0 && letters[i] == operator_sign && i+1 < length)
                         {
+                            cout<<"operator sign"<<endl;
                             text.push_back(bangla.getMathOperator()[letters[i+1]]);
                             i += 1;
                         }
