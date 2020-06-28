@@ -31,6 +31,11 @@ class BrailleToBangla: public BanglaTextProcess, public BrailleToText
 
         bool isConsonant(string consonant)
         {
+            if (bangla.getVol_spe().find(consonant) != bangla.getVol_spe().end() || bangla.getVolume().find(consonant) != bangla.getVolume().end())
+            {
+                return false;
+            }
+            /*
             for (pair<string, string> element : bangla.getConsonant())
             {
                 if(consonant == element.second)
@@ -38,19 +43,21 @@ class BrailleToBangla: public BanglaTextProcess, public BrailleToText
                     return true;
                 }
             }
-            return false;
+            */
+            return true;
         }
 
         string getBrailleToText(vector<string> text) //overriden
         {
             vector<string> outText = textProcess(text); //banglaTextProcess class
             int i = 0;
+            string out = ""; //new
             ofstream oFile("tests.txt", ios::app);
             //int length = srtlen(outText);
 
             while(i < outText.size())
             {
-                oFile<<outText[i]<<"\n";
+                oFile<<outText[i]<<"\n"; //test_hudai
                 if(bangla.getVol_spe().find(outText[i]) != bangla.getVol_spe().end() && i>0 && outText[i-1] == bangla.getVolume()["100000"])
                 {
                     //outText = outText.substr(0, i-1) + outText.substr(i, outText.size()-i+1);
