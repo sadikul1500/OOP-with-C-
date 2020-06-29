@@ -31,10 +31,45 @@ class BrailleToBangla: public BanglaTextProcess, public BrailleToText
 
         bool isConsonant(string consonant)
         {
-            if (bangla.getVol_spe().find(consonant) != bangla.getVol_spe().end() || bangla.getVolume().find(consonant) != bangla.getVolume().end())
+            unordered_map<string, string> allVowel = bangla.getVowelDictionary();
+            /*
+            for (pair<string, string> element : allVowel)
             {
+                cout<<8909000<<endl;
+                //oFile<<consonant<<" "<<element.second<<endl;
+                //if(consonant == element.second)
+                //{
+                    //cout<<"dd "<<letters[i]<<endl;
+                  //  return false; //element.second;
+                //}
+            }
+            */
+
+
+
+            //ofstream oFile("consonant.txt", ios::app);
+            //cout<<"ookkk"<<endl;
+            for (pair<string, string> element : allVowel)
+            {
+                //cout<<8909000<<endl;
+                //oFile<<consonant<<" "<<element.second<<endl;
+                if(consonant == element.second)
+                {
+                    //cout<<"dd "<<letters[i]<<endl;
+                    return false; //element.second;
+                }
+            }
+            return true;
+            /*
+            ofstream oFile("consonant.txt", ios::app);
+            if (bangla.getVol_spe().find(consonant) != bangla.getVol_spe().end()
+                 || bangla.getVolume().find(consonant) != bangla.getVolume().end()
+                 || bangla.getSymbolToKar().find(consonant) != bangla.getSymbolToKar().end())
+            {
+                oFile<<"false "<<consonant<<endl;
                 return false;
             }
+            */
             /*
             for (pair<string, string> element : bangla.getConsonant())
             {
@@ -44,7 +79,8 @@ class BrailleToBangla: public BanglaTextProcess, public BrailleToText
                 }
             }
             */
-            return true;
+            //oFile<<"true "<<consonant<<endl;
+            //return true;
         }
 
         string getBrailleToText(vector<string> text) //overriden
