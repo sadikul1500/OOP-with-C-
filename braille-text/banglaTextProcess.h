@@ -41,11 +41,13 @@ class BanglaTextProcess
             if(letters[*i] == "000100" && *i+2 < length)
             {
                 *i += 2;
+                //cout<<2222<<endl;
                 return dd[letters[*i+1-2]] + bangla.getHosonto().begin()->second + dd[letters[*i+2-2]];
             }
 
             else if(letters[*i] == "000101" && *i+4 < length)
             {
+                //cout<<4444444444<<endl;
                 string joint = dd[letters[*i+1]] + dd[letters[*i+2]] + dd[letters[*i+3]] + dd[letters[*i+4]];
                 if(bangla.getFourLetters().find(joint) != bangla.getFourLetters().end())
                 {
@@ -53,7 +55,7 @@ class BanglaTextProcess
                     {
                         if(joint == element.first)
                         {
-                            i += 4;
+                            *i += 4;
                             return dd[letters[*i+1-4]] + bangla.getHosonto().begin()->second + dd[letters[*i+2-4]] +
                             bangla.getHosonto().begin()->second + dd[letters[*i+3-4]] + bangla.getHosonto().begin()->second + dd[letters[*i+4-4]];
 
@@ -62,14 +64,15 @@ class BanglaTextProcess
                 }
             }
 
-            else if(letters[*i] == "000101" && *i+3 < length)
+            if(letters[*i] == "000101" && *i+3 < length)
             {
+                //cout<<2333333<<endl;
                 *i += 3;
                 return dd[letters[*i + 1-3]] + bangla.getHosonto().begin()->second + dd[letters[*i + 2-3]] + bangla.getHosonto().begin()->second +
                        dd[letters[*i + 3-3]];
 
             }
-
+            //cout<<"nn0ooo"<<endl;
             return "";
 
         }
