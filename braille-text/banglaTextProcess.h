@@ -1,5 +1,5 @@
-#ifndef BanglaTextProcess_H
-#define BanglaTextProcess_H
+#ifndef BANGLATEXTPROCESS_H
+#define BANGLATEXTPROCESS_H
 #include<iostream>
 #include<unordered_map>
 #include "double_map.h"
@@ -17,7 +17,7 @@ class BanglaTextProcess
     public:
         BanglaTextProcess()
         {
-            cout<<"Bangla text process"<<endl;
+            //cout<<"Bangla text process"<<endl;
         }
 
 
@@ -27,11 +27,11 @@ class BanglaTextProcess
             {
                 if(letters[i] == element.first)
                 {
-                    cout<<"dd "<<letters[i]<<endl;
+                    //cout<<"dd "<<letters[i]<<endl;
                     return element.second;
                 }
             }
-            cout<<"missed "<<letters[i]<<endl;
+            //cout<<"missed "<<letters[i]<<endl;
             return letters[i];
         }
 
@@ -41,13 +41,12 @@ class BanglaTextProcess
             if(letters[*i] == "000100" && *i+2 < length)
             {
                 *i += 2;
-                //cout<<2222<<endl;
-                return dd[letters[*i+1-2]] + bangla.getHosonto().begin()->second + dd[letters[*i+2-2]];
+                //cout<<bangla.getHosonto().begin()->second<<" "<<bangla.getHosonto().begin()->first<<endl;
+                return dd[letters[*i+1-2]] + bangla.getHosonto()["001011"] + dd[letters[*i+2-2]];
             }
 
             else if(letters[*i] == "000101" && *i+4 < length)
             {
-                //cout<<4444444444<<endl;
                 string joint = dd[letters[*i+1]] + dd[letters[*i+2]] + dd[letters[*i+3]] + dd[letters[*i+4]];
                 if(bangla.getFourLetters().find(joint) != bangla.getFourLetters().end())
                 {
@@ -56,8 +55,8 @@ class BanglaTextProcess
                         if(joint == element.first)
                         {
                             *i += 4;
-                            return dd[letters[*i+1-4]] + bangla.getHosonto().begin()->second + dd[letters[*i+2-4]] +
-                            bangla.getHosonto().begin()->second + dd[letters[*i+3-4]] + bangla.getHosonto().begin()->second + dd[letters[*i+4-4]];
+                            return dd[letters[*i+1-4]] + bangla.getHosonto()["001011"] + dd[letters[*i+2-4]] +
+                            bangla.getHosonto()["001011"] + dd[letters[*i+3-4]] + bangla.getHosonto()["001011"] + dd[letters[*i+4-4]];
 
                         }
                     }
@@ -66,13 +65,12 @@ class BanglaTextProcess
 
             if(letters[*i] == "000101" && *i+3 < length)
             {
-                //cout<<2333333<<endl;
                 *i += 3;
-                return dd[letters[*i + 1-3]] + bangla.getHosonto().begin()->second + dd[letters[*i + 2-3]] + bangla.getHosonto().begin()->second +
+                return dd[letters[*i + 1-3]] + bangla.getHosonto()["001011"] + dd[letters[*i + 2-3]] + bangla.getHosonto()["001011"] +
                        dd[letters[*i + 3-3]];
 
             }
-            //cout<<"nn0ooo"<<endl;
+
             return "";
 
         }
@@ -139,10 +137,10 @@ class BanglaTextProcess
 
             while(i < length)
             {
-                cout<<"btp "<<letters[i]<<endl;
+                //cout<<"btp "<<letters[i]<<endl;
                 if(num)
                 {
-                    cout<<"number process"<<endl;
+                    //cout<<"number process"<<endl;
                     text.push_back(numberProcess(letters, &bracket_count, &i, &length));
                 }
 
@@ -150,14 +148,14 @@ class BanglaTextProcess
                 {
                     if(i == 0 && letters[i] == numeral_sign)
                     {
-                        cout<<"numeral sign found in bangla"<<endl;
+                        //cout<<"numeral sign found in bangla"<<endl;
                         num = true;
                     }
 
                     else if(letters[i] == numeral_sign && (bangla.getPunctuation().find(letters[i-1]) != bangla.getPunctuation().end()
                             || bangla.getDot().find(letters[i]) != bangla.getDot().end()))
                     {
-                        cout<<"numeral sign found"<<endl;
+                        //cout<<"numeral sign found"<<endl;
                         num = true;
                     }
 
@@ -165,14 +163,13 @@ class BanglaTextProcess
                     {
                         if(i + 1 < length && bangla.getTwelveDots().find(letters[i] + letters[i + 1])!= bangla.getTwelveDots().end())
                         {
-                            cout<<"twelve dots"<<endl;
                             text.push_back(bangla.getTwelveDots()[letters[i] + letters[i + 1]]);
                             i += 1;
                         }
 
                         else if(bangla.getDouble_mapping().find(letters[i]) != bangla.getDouble_mapping().end())
                         {
-                            cout<<"double mapping"<<endl;
+                            //cout<<"double mapping"<<endl;
                             DoubleMap doubleMap(letters, i, bracket_count);
                             text.push_back(doubleMap.getCharFromDoubleMap());
                             bracket_count = doubleMap.getBracket_count();
@@ -181,7 +178,6 @@ class BanglaTextProcess
 
                         else if(i== 0 && letters[i] == operator_sign && i+1 < length)
                         {
-                            cout<<"operator sign"<<endl;
                             text.push_back(bangla.getMathOperator()[letters[i+1]]);
                             i += 1;
                         }
@@ -193,7 +189,7 @@ class BanglaTextProcess
 
                             if(txt == "")
                             {
-                                cout<<"last"<<endl;
+                                //cout<<"last"<<endl;
                                 text.push_back(getText(dd, letters, i));
                             }
                             else text.push_back(txt);
@@ -209,4 +205,4 @@ class BanglaTextProcess
             return text;
         }
 };
-#endif // BanglaTextProcess
+#endif // BANGLATEXTPROCESS_H
