@@ -11,6 +11,7 @@ class Bangla: public CommonSymbols
     private:
         unordered_map<string, string> banglaDictionary;
         unordered_map<string, string> allVowelDictionary;
+        unordered_map<string, string> allAlphabets;
 
         unordered_map<string, string> symbolToKar = {
             {"অ", ""}, {"আ", "া"},
@@ -65,6 +66,7 @@ class Bangla: public CommonSymbols
             cout<<"Bangla"<<endl;
             setBanglaDictionary();
             setVowelDictionary();
+            setAllAlphabets();
         }
 
         unordered_map<string, string> getFourLetters()
@@ -115,6 +117,16 @@ class Bangla: public CommonSymbols
             allVowelDictionary.insert(vol_spe.begin(), vol_spe.end());
             allVowelDictionary.insert(volume.begin(), volume.end());
             allVowelDictionary.insert(symbolToKar.begin(), symbolToKar.end());
+            allVowelDictionary.insert(getPunctuation().begin(), getPunctuation().end());
+            allVowelDictionary.insert(getDot().begin(), getDot().end());
+            allVowelDictionary.insert(getHosonto().begin(), getHosonto().end());
+        }
+
+        void setAllAlphabets()
+        {
+            allAlphabets.insert(vol_spe.begin(), vol_spe.end());
+            allAlphabets.insert(volume.begin(), volume.end());
+            allAlphabets.insert(consonant.begin(), consonant.end());
         }
 
         unordered_map<string, string> getBanglaDictionary()
@@ -125,6 +137,11 @@ class Bangla: public CommonSymbols
         unordered_map<string, string> getVowelDictionary()
         {
             return allVowelDictionary;
+        }
+
+        unordered_map<string, string> getAllAlphabets()
+        {
+            return allAlphabets;
         }
 
 
