@@ -14,6 +14,7 @@ class BrailleToEnglish: public BrailleToText
         string numeral_sign = "001111";
         string capital_sign = "000001";
         string operator_sign = "000011";
+        string fullstop = "010011";
 
     public:
         BrailleToEnglish()
@@ -172,7 +173,10 @@ class BrailleToEnglish: public BrailleToText
                         }
                         else
                         {
-                            text += getText(dd, letters, i, &capital);
+                            if (letters[i] == fullstop)
+                                text += ".";
+                            else
+                                text += getText(dd, letters, i, &capital);
 
                         }
                         num = false;
