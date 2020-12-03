@@ -20,10 +20,11 @@ int main() //int argc, char *argv[]
 
 
     vector<cv::String> fn;
-    glob("F:\\braille-text\\saadi\\*.png", fn, false);
-    string outt = "F:\\braille-text\\saadi_out_3_crop\\";
+    glob("F:\\braille-text\\scan_copy\\*.jpeg", fn, false);
+    string outt = "F:\\braille-text\\scan_copy_simple\\";
 
-    Mat image, gray, blur, blackWhite, erosion, dilation;
+    //int ret
+    Mat image, gray, hist, blur, median, blackWhite, erosion, dilation;
     //vector<Mat> images;
     size_t count = fn.size(); //number of png files in images folder
     for (size_t i=0; i<count; i++){
@@ -33,9 +34,13 @@ int main() //int argc, char *argv[]
         image = image(crop_region);
 
         cvtColor(image, gray, COLOR_BGR2GRAY);
-        GaussianBlur(gray, blur, Size(7, 7), 0, 0);
-        //threshold(blur, blackWhite, 0, 255, 20);
-        adaptiveThreshold(blur, blackWhite, 255, ADAPTIVE_THRESH_GAUSSIAN_C, THRESH_BINARY, 11, 5);
+        //equalizeHist(gray, hist); not works
+        GaussianBlur(gray, blur, Size(5, 5), 0, 0);
+        medianBlur(blur, median, 5);
+        //threshold(blur, blackWhite, 0, 255, THRESH_BINARY + THRESH_OTSU);
+        adaptiveThreshold(median, blackWhite, 255, ADAPTIVE_THRESH_GAUSSIAN_C, THRESH_BINARY, 13, 6);
+        //threshold( blur, blackWhite, 230, 255, THRESH_BINARY );
+
 
 
         /*
@@ -91,66 +96,3 @@ int main() //int argc, char *argv[]
 
 
 
-
-
-/*
-    std::string path = "F:\\image\\result1\\binDataFiles";    //"/path/to/directory";
-        for (const auto & entry : fs::directory_iterator(path))
-            std::cout << entry.path() << std::endl;
-
-    */
-    /*
-    //QCoreApplication a(argc, argv);
-    Mat image;
-    char key;
-    cout<<"ok man\n";
-
-    image = imread("G:\\f drive\\1IIT\\5th semester\\SPL2\\Bengali-Braille-to-Text-Translator-master\\braille-data\\data_01.jpg", IMREAD_COLOR);
-    imshow("opencv and qt", image);
-
-    while(1)
-    {
-        key = waitKey();
-
-        if (key == 'q')
-        {
-            destroyAllWindows();
-            break;
-        }
-    }
-    return 0; //a.exec();
-    */
-    /*
-    vector<cv::String> fn;
-    glob("G:\\image\\*.jpg", fn, false);
-    string out = "G:\\image\\";
-
-    Mat image, gray, blur, blackWhite, edge, oil, sharp, dnoise, water_color, erosion, dilation;
-    //vector<Mat> images;
-    size_t count = fn.size(); //number of png files in images folder
-    for (size_t i=0; i<count; i++){
-        //cout<<fn[i]<<endl;
-        image = imread(fn[i], IMREAD_COLOR);
-
-        stylization(image, water_color, 60, 0.45f);
-        //pencilSketch(image, water_color, 60, 0.07, 0.02);
-        imwrite((out+to_string(i)+"_water.png"), water_color);
-        //cvtColor(image, gray, COLOR_BGR2GRAY);
-        //imwrite((out+to_string(i)+"_gray.png"), gray);
-        //fastNlMeansDenoisingColored(image, dnoise,30.0,30.0,7,21);
-        //imwrite((out+to_string(i)+"_dnoise.png"), dnoise);
-        //xphoto::oilPainting(image, oil, 10, 1, COLOR_BGR2Lab);
-
-        //GaussianBlur(image, blur, Size(7, 7), 0, 0);
-        //imwrite((out+to_string(i)+"_blur.png"), blur);
-        //Laplacian(image, sharp, -1); //sharpening
-        //imwrite((out+to_string(i)+"_sharp.png"), sharp);
-        //Canny(blur, edge, 50, 100, 3);
-        //imwrite((out+to_string(i)+"_canny.png"), edge);
-
-        //threshold(blur, blackWhite, 0, 255, THRESH_BINARY | THRESH_OTSU);
-        //images.push_back(imread(fn[i]));
-        //imwrite((out+to_string(i)+".png"), blackWhite);
-        //imshow( "black white image ", blackWhite); //optional
-    }
-    */
