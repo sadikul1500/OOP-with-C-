@@ -36,7 +36,7 @@ class BanglaTextProcess
                 }
             }
             cout<<"missed "<<letters[i]<<endl;
-            return letters[i];
+            return "";//letters[i];
         }
 
 
